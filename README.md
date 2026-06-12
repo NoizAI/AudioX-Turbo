@@ -28,7 +28,7 @@ To support training, we construct a large-scale, high-quality dataset, **IF-caps
 ## ✨ Method
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7cb50c13-afd0-49a7-8945-e050bb59981e" width="100%" alt="method"/>
+  <img src="https://github.com/user-attachments/assets/9132cc70-f938-4197-839d-fbdd2011343b" width="100%" alt="method"/>
 </p>
 <p align="center">
   Overview of the AudioX-Turbo framework.
