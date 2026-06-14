@@ -1,0 +1,11 @@
+{
+    "dataset_type": "audio_dir",
+    "datasets": [
+        {
+            "id": "my_audio",
+            "path": "data/sample/",
+            "custom_metadata_module": "audiox_turbo/configs/dataset_configs/custom_metadata/custom_md_example.py"
+        }
+    ],
+    "random_crop": true
+}

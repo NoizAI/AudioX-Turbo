@@ -1,0 +1,147 @@
+{
+    "model_type": "diffusion_cond",
+    "sample_size": 485100,
+    "sample_rate": 44100,
+    "conditioning_seconds": 10,
+    "video_fps": 5,
+    "audio_channels": 2,
+    "model": {
+        "pretransform": {
+            "type": "autoencoder",
+            "iterate_batch": true,
+            "config": {
+                "encoder": {
+                    "type": "oobleck",
+                    "requires_grad": false,
+                    "config": {
+                        "in_channels": 2,
+                        "channels": 128,
+                        "c_mults": [1, 2, 4, 8, 16],
+                        "strides": [2, 4, 4, 8, 8],
+                        "latent_dim": 128,
+                        "use_snake": true
+                    }
+                },
+                "decoder": {
+                    "type": "oobleck",
+                    "config": {
+                        "out_channels": 2,
+                        "channels": 128,
+                        "c_mults": [1, 2, 4, 8, 16],
+                        "strides": [2, 4, 4, 8, 8],
+                        "latent_dim": 64,
+                        "use_snake": true,
+                        "final_tanh": false
+                    }
+                },
+                "bottleneck": {
+                    "type": "vae"
+                },
+                "latent_dim": 64,
+                "downsampling_ratio": 2048,
+                "io_channels": 2
+            }
+        },
+        "conditioning": {
+            "configs": [
+                {
+                    "id": "video_prompt",
+                    "type": "clip-with-sync-w-empty-feat",
+                    "config": {
+                        "clip_model_name": "clip-vit-base-patch32",
+                        "mask_ratio": 0,
+                        "mask_type": "input",
+                        "sync_type": "add"
+                    }
+                },
+                {
+                    "id": "text_prompt",
+                    "type": "t5",
+                    "config": {
+                        "t5_model_name": "t5-base",
+                        "max_length": 128,
+                        "mask_ratio": 0,
+                        "mask_type": "input"
+                    }
+                },
+                {
+                    "id": "audio_prompt",
+                    "type": "audio_autoencoder",
+                    "config": {
+                        "sample_rate": 44100,
+                        "pretransform_config": {
+                            "type": "autoencoder",
+                            "iterate_batch": true,
+                            "config": {
+                                "encoder": {
+                                    "type": "oobleck",
+                                    "requires_grad": false,
+                                    "config": {
+                                        "in_channels": 2,
+                                        "channels": 128,
+                                        "c_mults": [1, 2, 4, 8, 16],
+                                        "strides": [2, 4, 4, 8, 8],
+                                        "latent_dim": 128,
+                                        "use_snake": true
+                                    }
+                                },
+                                "decoder": {
+                                    "type": "oobleck",
+                                    "config": {
+                                        "out_channels": 2,
+                                        "channels": 128,
+                                        "c_mults": [1, 2, 4, 8, 16],
+                                        "strides": [2, 4, 4, 8, 8],
+                                        "latent_dim": 64,
+                                        "use_snake": true,
+                                        "final_tanh": false
+                                    }
+                                },
+                                "bottleneck": {
+                                    "type": "vae"
+                                },
+                                "latent_dim": 64,
+                                "downsampling_ratio": 2048,
+                                "io_channels": 2
+                            }
+                        },
+                        "pretransform_ckpt_path": "checkpoints/pretransform/vae.ckpt",
+                        "latent_seq_len": 215,
+                        "mask_ratio_start": 0.25,
+                        "mask_ratio_end": 0.75
+                    }
+                }
+            ],
+            "cond_dim": 768
+        },
+        "diffusion": {
+            "cross_attention_cond_ids": ["video_prompt", "text_prompt", "audio_prompt"],
+            "global_cond_ids": [],
+            "type": "mmdit",
+            "gate": true,
+            "gate_type": "MAF",
+            "gate_type_config": {
+                "num_experts_per_modality": 64,
+                "num_heads": 24,
+                "num_fusion_layers": 8
+            },
+            "diffusion_objective": "rectified_flow",
+            "config": {
+                "io_channels": 64,
+                "embed_dim": 1536,
+                "depth": 24,
+                "num_heads": 24,
+                "cond_token_dim": 768,
+                "global_cond_dim": 768,
+                "project_cond_tokens": false,
+                "transformer_type": "continuous_transformer",
+                "condition_mask_type": "cat",
+                "video_fps": 5
+            }
+        },
+        "io_channels": 64
+    },
+    "training": {
+        "dmd_sample_steps": 4
+    }
+}

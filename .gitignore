@@ -1,0 +1,46 @@
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.deps/
+build/
+dist/
+*.egg-info/
+
+logs/
+saved_ckpt/
+runs/
+wandb/
+results/
+
+*.wav
+*.mp3
+*.mp4
+*.npy
+*.pkl
+*.pth
+
+!data/media/
+!data/media/audio/
+!data/media/audio/*.mp3
+!data/media/video/
+!data/media/video/*.mp4
+!data/media/sync/
+!data/media/sync/*.pth
+
+# Demo inference examples (small, kept in git so the README example runs out of the box)
+!example/
+!example/*.mp4
+
+# Large model assets are not tracked in git. Publish the trained checkpoints via
+# release assets / object storage; the CLIP + T5 caches under checkpoints/huggingface
+# are downloaded automatically from the Hub on first run (see README).
+checkpoints/
+
+# Keep these in Git LFS, object storage, or release assets when publishing.
+*.ckpt
+*.jsonl
+!data/train_manifest_10.jsonl

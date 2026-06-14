@@ -1,0 +1,13 @@
+
+{
+    "dataset_type": "audio_dir",
+    "datasets": [
+        {
+            "id": "audio_condition_data",
+            "epoch_size": 10,
+            "path": "data/train_manifest_10.jsonl",
+            "custom_metadata_module": "./data/custom_metadata.py"
+        }
+    ],
+    "random_crop": true
+}

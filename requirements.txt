@@ -1,0 +1,87 @@
+# AudioX-Turbo core dependencies (pinned to a verified CUDA 12.1 / Python 3.8 setup).
+#
+# NOTE on soundfile: aeiou==0.0.20 declares soundfile<=0.10.2 in its (outdated)
+# metadata, so soundfile is intentionally NOT pinned here. Install it AFTER this
+# file with `pip install soundfile==0.12.1` (see README) to get the version the
+# data pipeline actually uses, without tripping pip's resolver.
+
+# --- Core deep learning stack (Linux wheels default to CUDA 12.1) ---
+torch==2.4.1
+torchaudio==2.4.1
+torchvision==0.19.1
+pytorch_lightning==2.4.0
+torchmetrics==1.5.2
+deepspeed==0.18.4
+
+# --- Transformers / tokenizers ---
+transformers==4.46.3
+huggingface_hub==0.34.4
+sentencepiece==0.1.99
+safetensors==0.4.5
+peft==0.13.2
+
+# --- Audio / video / signal processing ---
+librosa==0.9.2
+audioread==3.0.1
+pooch==1.8.2
+pedalboard==0.9.14
+encodec==0.1.1
+descript-audio-codec==1.0.0
+laion-clap==1.1.6
+torchlibrosa==0.1.0
+auraloss==0.4.0
+PyWavelets==1.4.1
+decord==0.6.0
+
+# --- Vision / video backbones (Synchformer, CLIP video conditioning) ---
+timm==1.0.15
+kornia==0.7.3
+ftfy==6.2.3
+opencv-python==4.10.0.84
+imageio==2.35.1
+imageio-ffmpeg==0.5.1
+
+# --- Diffusion / model building blocks ---
+k-diffusion==0.1.1
+v-diffusion-pytorch==0.0.2
+vector-quantize-pytorch==1.9.14
+x-transformers==1.42.11
+local-attention==1.8.6
+alias-free-torch==0.0.6
+ema-pytorch==0.7.3
+einops==0.8.1
+einops-exts==0.0.4
+
+# --- Numerical / data stack (pinned to keep NumPy < 2.0) ---
+numpy==1.23.5
+scipy==1.10.1
+pandas==2.0.3
+numba==0.58.1
+llvmlite==0.41.1
+scikit-learn==1.3.2
+pillow==10.4.0
+matplotlib==3.7.5
+
+# --- aeiou + its visualization stack ---
+aeiou==0.0.20
+fastcore==1.7.19
+accelerate==1.0.1
+plotly==5.24.1
+bokeh==3.1.1
+holoviews==1.17.1
+umap-learn==0.5.7
+pynndescent==0.5.13
+
+# --- Misc utilities ---
+omegaconf==2.3.0
+webdataset==0.2.100
+prefigure==0.0.10
+importlib-resources==5.12.0
+s3fs
+wandb==0.18.6
+tqdm
+setuptools<81
+
+# --- Interactive Gradio demo (audiox_turbo/interface/gradio.py, run_gradio.py) ---
+gradio==4.44.1
+gradio_client==1.3.0
