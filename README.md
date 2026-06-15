@@ -326,4 +326,4 @@ Please follow [CC-BY-NC 4.0](./LICENSE).
 
 ## 🙏 Acknowledgments
 
-We thank [stable-audio-tools](https://github.com/Stability-AI/stable-audio-tools), [AudioX](https://github.com/NoizAI/AudioX), [VidMuse](https://github.com/ZeyueT/VidMuse), and [MMAudio](https://github.com/hkchengrex/MMAudio) for their valuable contributions.
+We thank [stable-audio-tools](https://github.com/Stability-AI/stable-audio-tools), [AudioX](https://github.com/ZeyueT/AudioX), [VidMuse](https://github.com/ZeyueT/VidMuse), and [MMAudio](https://github.com/hkchengrex/MMAudio) for their valuable contributions.
