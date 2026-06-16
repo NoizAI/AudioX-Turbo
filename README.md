@@ -71,7 +71,7 @@ pip install soundfile==0.12.1
 
 ## 🪄 Checkpoints
 
-Large model files are **not** tracked in git. The trained checkpoints are hosted on the Hugging Face Hub at [HKUSTAudio/AudioX-Turbo](https://huggingface.co/HKUSTAudio/AudioX-Turbo).
+The trained checkpoints are hosted on the Hugging Face Hub at [HKUSTAudio/AudioX-Turbo](https://huggingface.co/HKUSTAudio/AudioX-Turbo).
 
 For **inference** you need the few-step `AudioX-Turbo` student model, the VAE, and
 (for video-conditioned generation) the Synchformer checkpoint. For **training**
