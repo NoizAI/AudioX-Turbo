@@ -18,7 +18,6 @@ from .codebook_patterns import (
     ParallelPatternProvider,
     UnrolledPatternProvider
 )
-import pdb
 
 # Copied and modified from https://github.com/facebookresearch/audiocraft/blob/main/audiocraft/models/lm.py under MIT license
 # License can be found in LICENSES/LICENSE_META.txt
@@ -65,9 +64,6 @@ class AudioLanguageModel(nn.Module):
             cross_attn_cond=None, #[batch, seq, channels],
             **kwargs
         ):
-        
-        pdb.set_trace()
-        
         batch, num_quantizers, seq_len = sequence.shape
 
         assert num_quantizers == self.num_quantizers, "Number of quantizers in sequence must match number of quantizers in model"

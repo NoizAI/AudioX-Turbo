@@ -243,6 +243,8 @@ def load_and_process_audio(audio_path, sample_rate, seconds_start, seconds_total
     if audio_path is None:
         return torch.zeros((2, int(sample_rate * seconds_total)))
     audio_tensor, sr = torchaudio.load(audio_path)
+    if sr != sample_rate:
+        audio_tensor = torchaudio.functional.resample(audio_tensor, sr, sample_rate)
     start_index = int(sample_rate * seconds_start)
     target_length = int(sample_rate * seconds_total)
     end_index = start_index + target_length

@@ -15,6 +15,7 @@ saved_ckpt/
 runs/
 wandb/
 results/
+outputs/
 
 *.wav
 *.mp3

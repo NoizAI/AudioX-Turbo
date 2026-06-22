@@ -13,9 +13,11 @@ Text-to-Audio, Video-to-Audio/Music, and combined Text+Video conditioning.
 
 import argparse
 import os
+import uuid
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
+OUTPUT_DIR = REPO_ROOT / "outputs"
 
 # Point the Hugging Face caches at the packaged checkpoints/huggingface folder and
 # use it offline when the CLIP/T5 snapshots are already present.
@@ -47,6 +49,18 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 MODEL = None
 MODEL_CONFIG = None
+
+
+def _make_output_paths(video_path=None):
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    run_id = uuid.uuid4().hex[:8]
+    out_wav = OUTPUT_DIR / f"audiox_turbo_{run_id}.wav"
+    if video_path:
+        video_stem = Path(video_path).stem or "video"
+        out_video = OUTPUT_DIR / f"{video_stem}_{run_id}.mp4"
+    else:
+        out_video = None
+    return out_wav, out_video
 
 
 def load(ckpt_path, config_path, pretransform_ckpt_path):
@@ -96,15 +110,13 @@ def generate(prompt, video_path, audio_path, seconds_total, steps, seed):
     audio = audio[:, :, : sample_rate * seconds_total]
     audio = rearrange(audio, "b d n -> d (b n)")
     audio = audio.to(torch.float32).div(torch.max(torch.abs(audio)).clamp_min(1e-8)).clamp(-1, 1)
-    out_wav = "output.wav"
-    torchaudio.save(out_wav, audio.cpu(), sample_rate)
+    out_wav, out_video = _make_output_paths(video_path)
+    torchaudio.save(str(out_wav), audio.cpu(), sample_rate)
 
-    out_video = None
     if video_path and os.path.exists(video_path):
-        out_video = "output.mp4"
-        merge_video_audio(video_path, out_wav, out_video, 0, seconds_total)
+        merge_video_audio(video_path, str(out_wav), str(out_video), 0, seconds_total)
 
-    return out_wav, out_video
+    return str(out_wav), str(out_video) if out_video else None
 
 
 def build_ui():

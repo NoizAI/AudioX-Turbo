@@ -78,25 +78,22 @@ For **inference** you need the few-step `AudioX-Turbo` student model, the VAE, a
 (distillation) you additionally need the teacher / base model, which is also used
 to initialize the student.
 
-Download with `huggingface-cli`:
+Download the inference checkpoints with the helper script:
 
 ```bash
 pip install -U "huggingface_hub[cli]"
 
-# Inference checkpoints (student + VAE + Synchformer)
-huggingface-cli download HKUSTAudio/AudioX-Turbo \
-  audiox_turbo/audiox_turbo.ckpt pretransform/vae.ckpt synchformer/synchformer_state_dict.pth \
-  --local-dir checkpoints
+bash scripts/download_checkpoints.sh
 
-# Training only: teacher / base model
-huggingface-cli download HKUSTAudio/AudioX-Turbo \
-  pretrained_ckpt/pretrained_ckpt.ckpt \
-  --local-dir checkpoints
+# Optional, training only: also download the teacher / base model
+INCLUDE_TRAINING_CKPT=1 bash scripts/download_checkpoints.sh
 ```
 
 …or with `wget`:
 
 ```bash
+mkdir -p checkpoints/audiox_turbo checkpoints/pretransform checkpoints/synchformer checkpoints/pretrained_ckpt
+
 # AudioX-Turbo: distilled 4-step student model (inference)
 wget https://huggingface.co/HKUSTAudio/AudioX-Turbo/resolve/main/audiox_turbo/audiox_turbo.ckpt -O checkpoints/audiox_turbo/audiox_turbo.ckpt
 
@@ -211,6 +208,8 @@ to drop a modality.
 python run_gradio.py            # http://localhost:7860
 python run_gradio.py --share    # public link
 ```
+
+Generated audio/video files are saved under `outputs/`.
 
 ### Python API
 

@@ -1703,7 +1703,6 @@ class ContinuousQwenMMDiTTransformer(nn.Module):
         info = {
             "hidden_states": [],
         }
-        import pdb; pdb.set_trace()
         x = self.project_in(x)
 
         if prepend_embeds is not None:
@@ -1749,13 +1748,10 @@ class ContinuousQwenMMDiTTransformer(nn.Module):
 
         txt_seq_lens = [mm_tokens.shape[1]] * batch
         img_shapes = [(1, x.shape[1], 64)] * batch
-        import pdb; pdb.set_trace()
         # image_rotary_emb = self.pos_embed(img_shapes, txt_seq_lens, device=x.device)
         audio_rotary_emb, text_rotary_emb = self.create_audio_rope_embeddings(x, mm_tokens, device=x.device)
 
-        import pdb; pdb.set_trace()
         for index_block, block in enumerate(self.layers):
-            import pdb; pdb.set_trace()
             mm_tokens, x = block(
                 hidden_states=x, # torch.Size([1, 6032, 3072]),                                     x: [48, 237, 1536]
                 encoder_hidden_states=mm_tokens, # torch.Size([1, 117, 3072]),                      mm_tokens: [48, 384, 1536]
